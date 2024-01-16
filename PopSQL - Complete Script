@@ -1,0 +1,820 @@
+#create a table
+CREATE TABLE student (
+   student_id INT,
+   name VARCHAR(20),
+   major VARCHAR(20),
+   PRIMARY KEY (student_id)
+);
+
+#describe a table
+DESCRIBE student;
+
+#drop a table
+DROP TABLE student;
+
+#add a column to a table
+ALTER TABLE student ADD COLUMN gpa DECIMAL(3,2);
+
+#drop a column from a table
+ALTER TABLE student DROP COLUMN gpa;
+
+#inserting data in the table student
+#follow the same order
+INSERT INTO student VALUES(
+    1, 'Jack','Biology'
+);
+
+#display the table
+SELECT * FROM student;
+
+INSERT INTO student VALUES(
+   2, 'Kate','Sociology'
+);
+
+#if you dont know the major
+
+INSERT INTO student(student_id, name) VALUES(3,'Claire');
+INSERT INTO student VALUES (4,'Jack','Biology');
+INSERT INTO student VALUES(5,'Mike', 'Computer Science');
+
+#deleting the entire table
+DROP TABLE student;
+
+#creating the same table with constraints
+CREATE TABLE student (
+   student_id INT,
+   name VARCHAR(20) NOT NULL,
+   major VARCHAR(20) UNIQUE,
+   PRIMARY KEY (student_id)
+);
+
+INSERT INTO student VALUES(1, 'Jack','Biology');
+INSERT INTO student VALUES(2, 'Kate','Sociology');
+INSERT INTO student VALUES(3, NULL, 'Electronics');
+INSERT INTO student VALUES (4,'Jack','Biology');
+INSERT INTO student VALUES(5,'Mike', 'Computer Science');
+
+#drop table again and create a new one with different constraints.
+DROP TABLE student;
+CREATE TABLE student (
+   student_id INT,
+   name VARCHAR(20) NOT NULL,
+   major VARCHAR(20) DEFAULT 'undecided',
+   PRIMARY KEY (student_id)
+);
+
+INSERT INTO student(student_id, name) VALUES(1, 'Jack');
+
+#auto increment
+DROP TABLE student;
+
+CREATE TABLE student (
+   student_id INT AUTO_INCREMENT,
+   name VARCHAR(20) NOT NULL,
+   major VARCHAR(20) UNIQUE,
+   PRIMARY KEY (student_id)
+);
+
+INSERT INTO student(name,major) VALUES('Jack','Maths'); #started from 1
+INSERT INTO student(name,major) VALUES('Neha','Science');
+INSERT INTO student VALUES (4,'Jack','Biology'); #manually inserted 4
+INSERT INTO student(name,major) VALUES('Arjun','History'); #will be given 5
+INSERT INTO student(name,major) VALUES('Nathan','Bio'); #will be given 6
+
+#update and delete
+CREATE TABLE student (
+   student_id INT,
+   name VARCHAR(20) NOT NULL,
+   major VARCHAR(20),
+   PRIMARY KEY (student_id)
+);
+
+INSERT INTO student VALUES(1, 'Jack','Biology');
+INSERT INTO student VALUES(2, 'Kate','Sociology');
+INSERT INTO student VALUES(3, 'Natlie', 'Electronics');
+INSERT INTO student VALUES (4,'Jack','Biology');
+INSERT INTO student VALUES(5,'Mike', 'Computer Science');
+
+SELECT * FROM student;
+
+#rename major names 'Biology' to 'Bio'
+
+#individual rows using "WHERE"
+UPDATE student SET major = 'Bio' WHERE major = 'Biology';
+UPDATE student SET major = 'CS' WHERE major = 'Computer Science';
+
+UPDATE student SET major = 'Chemistry' WHERE major = 'Electronics';
+
+UPDATE student SET major = 'BioChem' WHERE major = 'Bio' OR major = 'Chemistry';
+
+UPDATE student SET name = 'Tom', major = 'undecided' WHERE student_id = 1;
+
+#ALL at once -> simply get rid of the "WHERE" condition so it applies to all rows.
+
+UPDATE student SET major = 'TBD';
+
+#delete -> very similar to update
+
+DELETE FROM student WHERE student_id = 1;
+
+#delete all rows (but not the table)
+DELETE FROM student;
+DESCRIBE student; -> #proves that table still exists
+
+#basic Queries -> getting information from the database
+
+INSERT INTO student VALUES(1, 'Jack','Biology');
+INSERT INTO student VALUES(2, 'Kate','Sociology');
+INSERT INTO student VALUES(3, 'Natlie', 'Electronics');
+INSERT INTO student VALUES (4,'Jack','Biology');
+INSERT INTO student VALUES(5,'Mike', 'Computer Science');
+
+SELECT * FROM student; # '*' means all. we could fill in any COLUMN name instead of '*'
+
+SELECT name FROM student; #returns all entries from the name column
+
+SELECT name, major FROM student; #we get name and major
+
+#we can also write student.name instead of name (remember we need to still write FROM student)
+SELECT student.name, student.major FROM student;
+
+#we can order by a specific column as well
+SELECT student.name, student.major FROM student ORDER BY name; #alphabetically orders name (ascending by default)
+SELECT student.name, student.major FROM student ORDER BY name DESC; #descending order
+
+SELECT student.name, student.major FROM student ORDER BY student_id DESC;
+
+SELECT * FROM student ORDER BY student_id DESC;
+
+#order by more than one columns (ones written first take precedence)
+SELECT * FROM student ORDER BY major, student_id;
+
+SELECT * FROM student ORDER BY major, student_id DESC;
+
+SELECT * FROM student ORDER BY major DESC, student_id;
+
+#limit the numeber of responses to a specific number
+SELECT *
+FROM student
+LIMIT 2; #will print first two entries
+
+SELECT *
+FROM student
+ORDER BY student_id DESC
+LIMIT 3;
+
+SELECT name, major
+FROM student
+WHERE major = 'Biology' OR name = 'Kate'
+ORDER BY name ASC;
+
+-- In SQL, a comment is followed by two dashes.
+
+-- we can also use various comparison operators like 
+-- >, <, >=, <=, <> (not equal to), AND OR
+
+
+SELECT *
+FROM student
+WHERE major <> 'Biology';
+
+#check for multiple values in the same column using IN
+
+SELECT *
+FROM student
+WHERE name IN('Yash','Claire','Mohan','Kate','Jack');
+-- the above will print all rows which have Yash OR Claire OR... in the name column
+-- SQL works both in double quotes and single quotes much like Python;
+SELECT *
+FROM student
+WHERE name IN("Yash","Claire","Mohan","Kate","Jack");
+
+
+--database with more complex 'schema.'
+-- Schema refers to the organization or structure that defines how data is organized and how relationships among data elements are handled.
+-- tables, foreign keys and their relations vagera aandu gundu.
+
+-- DESIGNING A MORE COMPLEX SCHEMA
+
+CREATE TABLE employee (
+  emp_id INT PRIMARY KEY,
+  first_name VARCHAR(40),
+  last_name VARCHAR(40),
+  birth_day DATE,
+  sex VARCHAR(1),
+  salary INT,
+  super_id INT,
+  branch_id INT
+);
+
+#note - we first created the table employee and then later altered it to make
+-- super_id and branch_id as foreign keys. This is because both employee table and branch table
+-- dont exist yet. Since super_id references a column in the employee table itself, it is called a 
+-- self referencing foreign key. This does not change the way you define the foreign key. 
+
+CREATE TABLE branch (
+  branch_id INT PRIMARY KEY,
+  branch_name VARCHAR(40),
+  mgr_id INT,
+  mgr_start_date DATE,
+  FOREIGN KEY(mgr_id) REFERENCES employee(emp_id) ON DELETE SET NULL
+);
+
+ALTER TABLE employee
+ADD FOREIGN KEY(branch_id)
+REFERENCES branch(branch_id)
+ON DELETE SET NULL;
+
+ALTER TABLE employee
+ADD FOREIGN KEY(super_id)
+REFERENCES employee(emp_id)
+ON DELETE SET NULL;
+
+CREATE TABLE client (
+  client_id INT PRIMARY KEY,
+  client_name VARCHAR(40),
+  branch_id INT,
+  FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE SET NULL
+);
+
+CREATE TABLE works_with (
+  emp_id INT,
+  client_id INT,
+  total_sales INT,
+  PRIMARY KEY(emp_id, client_id), #composite key. two columns combine to make the primary key.
+  FOREIGN KEY(emp_id) REFERENCES employee(emp_id) ON DELETE CASCADE,
+  FOREIGN KEY(client_id) REFERENCES client(client_id) ON DELETE CASCADE
+);
+
+-- Yes, it is possible for the same column in an SQL table to be both the primary key and a foreign key.
+
+CREATE TABLE branch_supplier (
+  branch_id INT,
+  supplier_name VARCHAR(40),
+  supply_type VARCHAR(40),
+  PRIMARY KEY(branch_id, supplier_name), #again, composite key where two columns together uniquely identify each row.
+  FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE CASCADE
+);
+
+-- -----------------------------------------------------------------------------
+
+-- Corporate
+INSERT INTO employee VALUES(100, 'David', 'Wallace', '1967-11-17', 'M', 250000, NULL, NULL);
+
+INSERT INTO branch VALUES(1, 'Corporate', 100, '2006-02-09');
+
+UPDATE employee
+SET branch_id = 1
+WHERE emp_id = 100;
+
+INSERT INTO employee VALUES(101, 'Jan', 'Levinson', '1961-05-11', 'F', 110000, 100, 1);
+
+-- Scranton
+INSERT INTO employee VALUES(102, 'Michael', 'Scott', '1964-03-15', 'M', 75000, 100, NULL);
+
+INSERT INTO branch VALUES(2, 'Scranton', 102, '1992-04-06');
+
+UPDATE employee
+SET branch_id = 2
+WHERE emp_id = 102;
+
+INSERT INTO employee VALUES(103, 'Angela', 'Martin', '1971-06-25', 'F', 63000, 102, 2);
+INSERT INTO employee VALUES(104, 'Kelly', 'Kapoor', '1980-02-05', 'F', 55000, 102, 2);
+INSERT INTO employee VALUES(105, 'Stanley', 'Hudson', '1958-02-19', 'M', 69000, 102, 2);
+
+-- Stamford
+INSERT INTO employee VALUES(106, 'Josh', 'Porter', '1969-09-05', 'M', 78000, 100, NULL);
+
+INSERT INTO branch VALUES(3, 'Stamford', 106, '1998-02-13');
+
+UPDATE employee
+SET branch_id = 3
+WHERE emp_id = 106;
+
+INSERT INTO employee VALUES(107, 'Andy', 'Bernard', '1973-07-22', 'M', 65000, 106, 3);
+INSERT INTO employee VALUES(108, 'Jim', 'Halpert', '1978-10-01', 'M', 71000, 106, 3);
+
+
+-- BRANCH SUPPLIER
+INSERT INTO branch_supplier VALUES(2, 'Hammer Mill', 'Paper');
+INSERT INTO branch_supplier VALUES(2, 'Uni-ball', 'Writing Utensils');
+INSERT INTO branch_supplier VALUES(3, 'Patriot Paper', 'Paper');
+INSERT INTO branch_supplier VALUES(2, 'J.T. Forms & Labels', 'Custom Forms');
+INSERT INTO branch_supplier VALUES(3, 'Uni-ball', 'Writing Utensils');
+INSERT INTO branch_supplier VALUES(3, 'Hammer Mill', 'Paper');
+INSERT INTO branch_supplier VALUES(3, 'Stamford Lables', 'Custom Forms');
+
+-- CLIENT
+INSERT INTO client VALUES(400, 'Dunmore Highschool', 2);
+INSERT INTO client VALUES(401, 'Lackawana Country', 2);
+INSERT INTO client VALUES(402, 'FedEx', 3);
+INSERT INTO client VALUES(403, 'John Daly Law, LLC', 3);
+INSERT INTO client VALUES(404, 'Scranton Whitepages', 2);
+INSERT INTO client VALUES(405, 'Times Newspaper', 3);
+INSERT INTO client VALUES(406, 'FedEx', 2);
+
+-- WORKS_WITH
+INSERT INTO works_with VALUES(105, 400, 55000);
+INSERT INTO works_with VALUES(102, 401, 267000);
+INSERT INTO works_with VALUES(108, 402, 22500);
+INSERT INTO works_with VALUES(107, 403, 5000);
+INSERT INTO works_with VALUES(108, 403, 12000);
+INSERT INTO works_with VALUES(105, 404, 33000);
+INSERT INTO works_with VALUES(107, 405, 26000);
+INSERT INTO works_with VALUES(102, 406, 15000);
+INSERT INTO works_with VALUES(105, 406, 130000);
+
+
+-- LETS DO SOME SQL
+
+SELECT * FROM employee;
+-- BASIC SELECT STATEMENTS
+
+--Q1. Find all employees.
+
+SELECT first_name, last_name
+FROM employee;
+
+--Q2 Find all clients.
+
+SELECT client_name
+FROM client;
+
+-- Q3. Find all employees ordered by salary
+
+SELECT first_name, last_name
+FROM employee
+ORDER BY salary;
+
+--richest first
+
+SELECT first_name, last_name
+FROM employee
+ORDER BY salary DESC;
+
+-- Q4. Find all employees ordered by sex then name.
+
+SELECT *
+FROM employee
+ORDER BY sex,  first_name,last_name;
+
+
+--Q5. Find the first 5 employees in the table
+
+SELECT *
+FROM employee
+LIMIT 5;
+
+-- Q6. Find the forename and surname of all employees
+
+SELECT first_name AS forename, last_name AS surname -- will name the column IN THE OUTPUT as 'forename' and 
+-- 'surname' instead of their original names 'first_name' and 'last_name' (both with and withotu quotes works.)
+FROM employee;
+
+-- OR
+SELECT first_name AS 'forename', last_name AS 'surname' -- will name the column in the OUTPUT as 'forename' and 
+-- 'surname' instead of their original names 'first_name' and 'last_name' (both with and without quotes works.)
+FROM employee;
+
+-- Q7. Find out all different genders.
+
+SELECT DISTINCT sex
+FROM employee;
+
+-- Basically, prints all UNIQUE VALUES from the column sex (REMEMBER THE KEYWORD - D I S T I N C T). Every Null
+-- value is considered a different type of unique
+
+SELECT DISTINCT branch_id
+FROM employee;
+
+-- SQL FUNCTIONS
+
+
+-- The SELECT statement is versatile and supports various functionalities, including aggregations 
+-- (using functions like COUNT, SUM, AVG, etc.), sorting (using ORDER BY), grouping (using GROUP BY),
+-- and joining tables (using JOIN). 
+
+--Q8. How many employees are these in the company?
+
+SELECT COUNT(emp_id) -- note: this gives the NUMBER OF NON-NULL ENTRIES (ROWS) in the table and not unique values.  
+-- it will give the same asnwer for all columns of the employee table (except columns with null values).
+FROM employee;
+
+SELECT COUNT(super_id) -- note: this gives the NUMBER OF ENTRIES (ROWS) in the table and not unique values. 
+-- it will give the same asnwer for all columns of the employee table. (except columns with null values)
+FROM employee; -- this is 8 because David Wallace has no super_id
+
+-- NOTE: In SQL, when using the DISTINCT keyword, NULL values are considered distinct from each other. 
+-- This means that if a column contains multiple NULL values, they are treated as unique and not 
+--collapsed into a single result in the result set.
+
+SELECT DISTINCT super_id FROM employee; -- if this had 2 NULL values, all would've been printed separately.
+SELECT COUNT(DISTINCT super_id) FROM employee; -- COUNT doesnt consider NULL entires.
+-- OTHER COMMON AGGREGATION FUNCTIONS - SUM(), AVG()
+
+--Q9. Find the number of female employees born after 1970
+
+SELECT COUNT(emp_id)
+FROM employee
+WHERE sex = "F" AND YEAR(birth_day)>1970; -- Used the YEAR function to extract only the year from the budday.
+
+OR 
+
+SELECT COUNT(emp_id)
+FROM employee
+WHERE sex = "F" AND birth_day> '1970-01-01';
+
+-- Q.10 Find the average of all employee salaries.
+
+SELECT AVG(salary) AS 'Average Salary'
+FROM employee;
+
+-- for only male employees
+
+SELECT AVG(salary) AS 'Average Salary (Male)'
+FROM employee
+WHERE sex = 'M';
+
+-- find the sum of all employee salaries
+
+SELECT SUM(salary) AS sum_salaries
+FROM employee;
+
+-- Q.11 Find out how many males and females there are in the company (Aggregation function GROUP BY)
+
+SELECT COUNT(sex), sex
+FROM employee
+GROUP BY sex;
+
+-- Q.12 Find the total sales of each salesman
+
+SELECT SUM(total_sales), emp_id
+FROM works_with
+GROUP BY emp_id;
+
+-- money spent by each client
+
+SELECT SUM(total_sales), client_id
+FROM works_with
+GROUP BY client_id;
+
+
+-- WILDCARDS in SQL
+--In SQL, wildcards are special characters used in conjunction with the LIKE keyword in the WHERE 
+--clause of a query to perform PATTERN-MATCHING searches in string data. 
+-- The two main wildcards used in SQL are:
+
+--1. % (percent sign): This wildcard represents zero or more characters.
+-- 2. _ (underscore): This wildcard represents a single character.
+
+-- % - any number of characters. _ - single character
+
+-- Example: SELECT * FROM products WHERE product_code LIKE 'A%3_'; 
+-- This query will retrieve all rows where the product code starts with 'A', followed by any character, 
+-- and then ends with '3' followed by a single character.
+
+-- Q. 13 Find any client's who are an LLC 
+SELECT *
+FROM client
+WHERE client_name LIKE '%LLC';
+
+-- For our case - it is NOT case sensitive.
+--NOTE: The case sensitivity of wildcards in SQL depends on the collation of the underlying database. 
+-- In many databases, the default collation is case-insensitive, meaning that uppercase and lowercase 
+-- letters are treated as the same. However, it's essential to note that some databases or specific 
+-- columns within a database may have a case-sensitive collation. We can use the COLLATE function
+-- to introduce case sensitivity.
+
+--- If the database or column is case-insensitive, using wildcards like `%` and `_` will match both uppercase and lowercase characters interchangeably.
+
+-- 13b. Find any branch suppliers who are in the label business
+
+SELECT *
+FROM branch_supplier
+WHERE supplier_name LIKE '% Label%' OR supplier_name LIKE '% Lable%'; -- since our db has both spellings label and lable
+
+-- Q.14 Find all employees born in october
+SELECT *
+FROM employee
+WHERE MONTH(birth_day) = 10;
+
+OR
+
+SELECT *
+FROM employee
+WHERE birth_day LIKE '%-10-%';
+
+OR
+SELECT *
+FROM employee
+WHERE birth_day LIKE '____-10-__';
+
+OR
+SELECT *
+FROM employee
+WHERE birth_day LIKE '____-10%';
+
+-- for February
+
+SELECT *
+FROM employee
+WHERE birth_day LIKE '____-02%';
+
+--14b. Find clients that are schools
+
+SELECT *
+FROM client
+WHERE client_name LIKE '%school%';
+
+/* 
+multi
+line
+comments
+*/
+
+-- UNIONS in SQL (EK KE NEECHE DOOSRA)
+
+/*UNION is basically a special SQL operator which will combine the results of multiple SELECT statements
+into one. (VERTICALLY)
+The UNION operator in SQL is used to combine the result sets of two or more SELECT statements. 
+It removes duplicate rows from the combined result set. The number of columns and their data types must be 
+the same in all SELECT statements involved in the UNION. */
+
+/* RULES:
+1. Number of columns must be the same in all SELECT statements.
+2. Their datatypes must be the same. (mostly)
+*/
+
+-- Q15. Find a list of all employees and branch names.
+SELECT first_name AS Combined-- one column (datatype - VARCHAR) - this will also be the column name for the combined column
+FROM employee
+UNION
+SELECT branch_name -- one column (datatype - VARCHAR)
+FROM branch
+UNION
+SELECT client_name
+FROM client;
+
+SELECT first_name AS 'FIRST COL', last_name AS 'SECOND COL'
+FROM employee 
+UNION 
+SELECT branch_name, branch_id -- not sure why we were able to plot branch_id here since it is INT and others are VARCHAR
+FROM branch;
+
+-- Q16. Find a list of all clients and branch suppliers names.
+
+SELECT client_name AS 'COMBINED'
+FROM client
+UNION
+SELECT supplier_name
+FROM branch_supplier;
+
+-- Q17. Find a list of all money spent or earned by the company.
+
+SELECT salary AS 'spent_earned'
+FROM employee
+UNION
+SELECT total_sales
+FROM works_with;
+
+-- JOINS in SQL - retrive data from two or more tables based on a 'related' column
+/*
+In SQL, a join is a mechanism used to retrieve data from two or more tables based on a related column 
+between them. The purpose of a join is to combine rows from different tables in a meaningful way, 
+usually by matching values in specified columns.
+NOTE:  
+*/
+
+INSERT INTO branch VALUES(4,'Buffalo', NULL, NULL);
+
+-- Q18. Find all branches and the names of their managers
+SELECT employee.emp_id, employee.first_name, branch.branch_name
+FROM employee -- primary table / left table 
+JOIN branch -- secondary table / right table (from where values are being joined)
+ON employee.emp_id = branch.mgr_id; --  this is the related table
+
+--Fancy--
+SELECT employee.emp_id, employee.first_name AS 'Manager Name', branch.branch_name
+FROM employee -- primary table / left table 
+JOIN branch -- secondary table / right table (from where values are being joined)
+ON employee.emp_id = branch.mgr_id;
+
+-- in this example, whenever emp_id in the employee table and the mgr_id in the branch table will be the same,
+-- that value will be included in the output.
+
+SELECT employee.emp_id, employee.first_name, branch.branch_name
+FROM employee -- primary table 
+JOIN branch -- secondary table (from where values are being joined)
+ON employee.emp_id = branch.branch_id;  -- blank output because at no point is emp_id from employee table = branch_id from branch table
+
+/* 
+This is the general basic version of Join, called INNER JOIN. Other types of joins include:
+
+INNER JOIN: Returns only the rows where there is a match in both tables
+
+OUTER JOIN - LEFT, RIGHT, FULL
+
+LEFT (OUTER) JOIN: Returns all rows from the left table and the matched rows from the right table. Match or no match.
+If there is no match, NULL values are returned for columns from the right table.
+
+RIGHT (OUTER) JOIN: Returns all rows from the right table and the matched rows from the left table. 
+If there is no match, NULL values are returned for columns from the left table.
+
+FULL (OUTER) JOIN (Not supported by MySQL): Returns all rows when there is a match in either the left or right table. 
+If there is no match, NULL values are returned for columns from the table without a match.
+
+*/
+
+--LEFT (OUTER) JOIN 
+
+SELECT employee.emp_id, employee.first_name, branch.branch_name
+FROM employee 
+LEFT JOIN branch -- all rows from EMPLOYEE TABLE will be returned. 
+ON employee.emp_id = branch.mgr_id; 
+
+--RIGHT (OUTER) JOIN
+
+SELECT employee.emp_id, employee.first_name, branch.branch_name
+FROM employee 
+RIGHT JOIN branch -- all rows from BRANCH TABLE will be returned. 
+ON employee.emp_id = branch.mgr_id; 
+
+-- FULL (OUTER) JOIN (Not supported by MySQL)
+/*
+SELECT employee.emp_id, employee.first_name, branch.branch_name
+FROM employee 
+FULL JOIN branch -- all rows from BRANCH TABLE will be returned. 
+ON employee.emp_id = branch.mgr_id; 
+*/
+
+-- NESTED QUERIES in SQL (one inside another)
+
+--Q19. Find the names of all employees who have sold over 30,000 units to a single client
+SELECT employee.first_name, employee.last_name
+FROM employee
+WHERE emp_id IN(
+   SELECT works_with.emp_id
+   FROM works_with
+   WHERE works_with.total_sales >30000
+);
+
+-- Q20. Find all cleints who are handled by the branch Michael Scott Manages. Assume you know his ID.
+SELECT client.client_name
+FROM client
+WHERE client.branch_id IN(
+   SELECT branch.branch_id
+   FROM branch
+   WHERE branch.mgr_id = 102
+   LIMIT 1 -- -- not relevant for our case but what if Michael Scott was a manager at multiple branches? Hence added Limit 1.
+);
+
+-- THE SAME AS
+SELECT client.client_name
+FROM client
+WHERE client.branch_id = (   -- = instead of IN. Does the same job.
+   SELECT branch.branch_id
+   FROM branch
+   WHERE branch.mgr_id = 102
+   LIMIT 1
+
+);
+
+-- ON DELETE - Action to be taken on the child table when a corresponding entry from a linked parent table
+-- is deleted.
+
+/*
+In SQL, when you define a foreign key relationship between tables, you can specify the ON DELETE option 
+to determine the action that should be taken when a referenced row in the parent table is deleted. 
+The ON DELETE option has several options:
+
+1. ON DELETE CASCADE - When a referenced row in the parent table is deleted, all corresponding rows 
+in the child table are automatically deleted.
+2. ON DELETE SET NULL - When a referenced row in the parent table is deleted, the FOREIGN KEY column 
+in the child table is set to NULL.
+3. SET DEFAULT - Similar to SET NULL, but the foreign key column is set to its default value.
+4. NO ACTION (or RESTRICT) - This is the default option. If a referenced row in the parent table is being 
+used by rows in the child table, the ON DELETE NO ACTION option prevents the deletion of the referenced row.
+
+*/
+
+-- we had used ON DELETE SET NULL while defining the BRANCH table. Hence, upon deletion of a referenced
+-- emp_id, the corresponding mgr_id will be set to null.
+
+DELETE from employee
+WHERE emp_id=102;
+
+SELECT *
+FROM employee; -- Michael Scott (emp id 102) has been deleted. A lot of super_id's have also been set to null
+-- now since Micheal Scott was their supervisor.
+
+SELECT *
+FROM branch; -- mgr_id in this table has been set to null.
+
+-- ON DELETE CASCADE
+-- we had used ON DELETE CASCADE for branch supplier. Hence, upon deletion, entire row in the child table must
+-- be deleted. Lets test this.AUTO_INCREMENT
+
+DELETE FROM branch
+WHERE branch_id =2;
+
+SELECT *
+FROM branch_supplier; -- all rows with branch_id = 2 have been erased.
+
+-- Usually its upto us and the situation what to use (CASCADE , NULL or RESTRICT) but in cases like that of
+-- branch_supplier it is better to use CASCADE since branch_id is a primary key in that table which cannot be
+-- set to null.
+
+-- TRIGGERS
+
+/*
+
+In SQL, a trigger is a set of instructions or a predefined set of actions that are automatically executed,
+or "triggered," in response to certain events on a particular table or view.
+NOTE: Triggers need to be defined in the terminal and wont work on PopSQL. This is becasue we need to change
+the SQL Delimiter (;) in order to define our trigger.
+
+The events that can activate a trigger include INSERT, UPDATE, DELETE, and other database-related activities.
+*/
+
+CREATE TABLE trigger_test(
+   message VARCHAR(100)
+); -- creating a table to test the newly created trigger. (check terminal.)
+
+/* TRIGGER 1
+
+COPY PASTE IN THE TERMINAL 
+
+DELIMITER $$
+CREATE 
+   TRIGGER my_trigger BEFORE INSERT 
+   ON employee
+   FOR EACH ROW
+   BEGIN
+      INSERT INTO trigger_test VALUES('adding new employee');
+   END$$
+DELIMITER ;
+*/
+
+-- adding a new value to the employee table to check if our created trigger works as intended.
+INSERT INTO employee VALUES(109,'Oscar','Martinez','1968-02-19','M', 69000,106,3);
+
+SELECT *
+FROM trigger_test; -- new entry is visible because of the insertion of new employee Oscar Martinez.
+
+/* TRIGGER 2
+
+COPY PASTE IN THE TERMINAL 
+
+DELIMITER $$
+CREATE 
+   TRIGGER my_trigger_2 BEFORE INSERT 
+   ON employee
+   FOR EACH ROW
+   BEGIN
+      INSERT INTO trigger_test VALUES(NEW.first_name); 
+   END$$
+DELIMITER ;
+'NEW' refers to the new row being added.
+NEW: Represents the new values of the row being affected. It is used in AFTER INSERT and AFTER UPDATE triggers.
+OLD: Represents the old values of the row being affected. It is used in AFTER DELETE and AFTER UPDATE triggers.
+
+*/
+
+--testing the second trigger
+INSERT INTO employee 
+VALUES(110,'Kevin','Malone','1978-02-19','M', 69000,106,3);
+
+SELECT *
+FROM trigger_test;
+
+
+/* TRIGGER 3: Conditional Trigger
+
+COPY PASTE IN THE TERMINAL 
+
+DELIMITER //
+CREATE 
+   TRIGGER my_trigger_3 AFTER INSERT 
+   ON employee
+   FOR EACH ROW
+   BEGIN
+      IF NEW.sex = 'M'THEN
+         INSERT INTO trigger_test VALUES('Male employee added');
+      ELSEIF NEW.sex = 'F' THEN
+         INSERT INTO trigger_test VALUES('Female employee added');
+      ELSE 
+         INSERT INTO trigger_test VALUES('Other employee added');
+      END IF;
+   END //
+DELIMITER ;
+*/
+
+-- inserting a female employee to check if trigger worked properly.
+
+INSERT INTO employee
+VALUES (111,'Pam','Beesley','1988-02-19','F', 69000,106,3);
+
+SELECT *
+FROM trigger_test;
+
+-- Dropping a trigger -> DROP TRIGGER my_trigger (first trigger we created)

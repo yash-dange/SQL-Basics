@@ -1,0 +1,1400 @@
+Last login: Sat Jan  6 19:03:50 on ttys000
+(base) yashdange@Yashs-MBP ~ % mysql
+zsh: command not found: mysql
+(base) yashdange@Yashs-MBP ~ % mysql -u root -p
+(base) yashdange@Yashs-MBP ~ % echo 'export PATH=/usr/local/mysql/bin:$PATH' >> ~/.bash_profile
+(base) yashdange@Yashs-MBP ~ % . ~/.bash_profile                                               
+(base) yashdange@Yashs-MBP ~ % mysql                                                           
+ERROR 1045 (28000): Access denied for user 'yashdange'@'localhost' (using password: NO)
+(base) yashdange@Yashs-MBP ~ % mysql -u root -p                                                
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 18
+Server version: 8.0.24 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> USE giraffe
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_giraffe |
++-------------------+
+| student           |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> DESCRIBE student;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| student_id | int         | NO   | PRI | NULL    |       |
+| name       | varchar(20) | YES  |     | NULL    |       |
+| major      | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESCRIBE student;
+ERROR 1146 (42S02): Table 'giraffe.student' doesn't exist
+mysql> DESCRIBE student;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| student_id | int         | NO   | PRI | NULL    |       |
+| name       | varchar(20) | YES  |     | NULL    |       |
+| major      | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESCRIBE student;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| student_id | int          | NO   | PRI | NULL    |       |
+| name       | varchar(20)  | YES  |     | NULL    |       |
+| major      | varchar(20)  | YES  |     | NULL    |       |
+| gpa        | decimal(3,2) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> DESCRIBE student;
+ERROR 1146 (42S02): Table 'giraffe.student' doesn't exist
+mysql> DESCRIBE student;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| student_id | int          | NO   | PRI | NULL    |       |
+| name       | varchar(20)  | YES  |     | NULL    |       |
+| major      | varchar(20)  | YES  |     | NULL    |       |
+| gpa        | decimal(3,2) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> DESCRIBE student;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| student_id | int         | NO   | PRI | NULL    |       |
+| name       | varchar(20) | YES  |     | NULL    |       |
+| major      | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> SHOW student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'student' at line 1
+mysql> SELECT * FROM stundent;
+ERROR 1146 (42S02): Table 'giraffe.stundent' doesn't exist
+mysql> SELECT * FROM student;
++------------+------+---------+
+| student_id | name | major   |
++------------+------+---------+
+|          1 | Jack | Biology |
++------------+------+---------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO student VALUES(1,'Yash','Math');
+ERROR 1062 (23000): Duplicate entry '1' for key 'student.PRIMARY'
+mysql> SELECT * FROM students;
+ERROR 1146 (42S02): Table 'giraffe.students' doesn't exist
+mysql> SELECT * FROM student;
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | Biology   |
+|          2 | Kate | Sociology |
++------------+------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+-----------+
+| student_id | name   | major     |
++------------+--------+-----------+
+|          1 | Jack   | Biology   |
+|          2 | Kate   | Sociology |
+|          3 | Claire | NULL      |
+|          4 | Prem   | NULL      |
++------------+--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> DELETE FROM student WHERE student_id = 3;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM student;
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | Biology   |
+|          2 | Kate | Sociology |
+|          4 | Prem | NULL      |
++------------+------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> DELETE FROM student WHERE student_id = 4;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | Biology   |
+|          2 | Kate | Sociology |
++------------+------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> DELETE FROM student WHERE student_id = 4;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+------------------+
+| student_id | name   | major            |
++------------+--------+------------------+
+|          1 | Jack   | Biology          |
+|          2 | Kate   | Sociology        |
+|          3 | Claire | NULL             |
+|          4 | Jack   | Biology          |
+|          5 | Mike   | Computer Science |
++------------+--------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> DROP TABLE student;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> SELECT * FROM student;
+Empty set (0.00 sec)
+
+mysql> DESCRIBE student;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| student_id | int         | NO   | PRI | NULL    |       |
+| name       | varchar(20) | NO   |     | NULL    |       |
+| major      | varchar(20) | YES  | UNI | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.03 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+-----------+
+| student_id | name   | major     |
++------------+--------+-----------+
+|          1 | Jack   | Biology   |
+|          2 | Kate   | Sociology |
+|          3 | Claire | NULL      |
++------------+--------+-----------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT * FROM student;
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | Biology   |
+|          2 | Kate | Sociology |
++------------+------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+-----------+
+| student_id | name   | major     |
++------------+--------+-----------+
+|          1 | Jack   | Biology   |
+|          2 | Kate   | Sociology |
+|          3 | Claire | NULL      |
++------------+--------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> DELETE FROM student WHERE name = 'Claire';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM student;
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | Biology   |
+|          2 | Kate | Sociology |
++------------+------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+------+-------+
+| student_id | name | major |
++------------+------+-------+
+|          1 | Jack | NULL  |
++------------+------+-------+
+1 row in set (0.00 sec)
+
+mysql> DELETE FROM student WHERE name = 'Jack';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM student;
+Empty set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | undecided |
++------------+------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+------+-------+
+| student_id | name | major |
++------------+------+-------+
+|          1 | Jack | Maths |
++------------+------+-------+
+1 row in set (0.01 sec)
+
+mysql> SELECT * FROM student;
++------------+------+---------+
+| student_id | name | major   |
++------------+------+---------+
+|          1 | Jack | Maths   |
+|          2 | Neha | Science |
++------------+------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+------+---------+
+| student_id | name | major   |
++------------+------+---------+
+|          1 | Jack | Maths   |
+|          2 | Neha | Science |
+|          4 | Jack | Biology |
++------------+------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+-------+---------+
+| student_id | name  | major   |
++------------+-------+---------+
+|          1 | Jack  | Maths   |
+|          2 | Neha  | Science |
+|          4 | Jack  | Biology |
+|          6 | Arjun | History |
++------------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+---------+
+| student_id | name   | major   |
++------------+--------+---------+
+|          1 | Jack   | Maths   |
+|          2 | Neha   | Science |
+|          4 | Jack   | Biology |
+|          6 | Arjun  | History |
+|          7 | Nathan | Bio     |
++------------+--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+------+---------+
+| student_id | name | major   |
++------------+------+---------+
+|          1 | Jack | Maths   |
+|          2 | Neha | Science |
++------------+------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+------+---------+
+| student_id | name | major   |
++------------+------+---------+
+|          1 | Jack | Maths   |
+|          2 | Neha | Science |
+|          4 | Jack | Biology |
++------------+------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+-------+---------+
+| student_id | name  | major   |
++------------+-------+---------+
+|          1 | Jack  | Maths   |
+|          2 | Neha  | Science |
+|          4 | Jack  | Biology |
+|          5 | Arjun | History |
++------------+-------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+---------+
+| student_id | name   | major   |
++------------+--------+---------+
+|          1 | Jack   | Maths   |
+|          2 | Neha   | Science |
+|          4 | Jack   | Biology |
+|          5 | Arjun  | History |
+|          6 | Nathan | Bio     |
++------------+--------+---------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+------------------+
+| student_id | name   | major            |
++------------+--------+------------------+
+|          1 | Jack   | Biology          |
+|          2 | Kate   | Sociology        |
+|          3 | Natlie | Electronics      |
+|          4 | Jack   | Biology          |
+|          5 | Mike   | Computer Science |
++------------+--------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+-----------+
+| student_id | name   | major     |
++------------+--------+-----------+
+|          1 | Tom    | undecided |
+|          2 | Kate   | Sociology |
+|          3 | Natlie | BioChem   |
+|          4 | Jack   | BioChem   |
+|          5 | Mike   | CS        |
++------------+--------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+-------+
+| student_id | name   | major |
++------------+--------+-------+
+|          1 | Tom    | TBD   |
+|          2 | Kate   | TBD   |
+|          3 | Natlie | TBD   |
+|          4 | Jack   | TBD   |
+|          5 | Mike   | TBD   |
++------------+--------+-------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+-------+
+| student_id | name   | major |
++------------+--------+-------+
+|          2 | Kate   | TBD   |
+|          3 | Natlie | TBD   |
+|          4 | Jack   | TBD   |
+|          5 | Mike   | TBD   |
++------------+--------+-------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
+Empty set (0.00 sec)
+
+mysql> DESCRIBE student;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| student_id | int         | NO   | PRI | NULL    |       |
+| name       | varchar(20) | NO   |     | NULL    |       |
+| major      | varchar(20) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
+ERROR 4031 (HY000): The client was disconnected by the server because of inactivity. See wait_timeout and interactive_timeout for configuring this behavior.
+No connection. Trying to reconnect...
+Connection id:    19
+Current database: giraffe
+
+Empty set (0.20 sec)
+
+mysql> SELECT * FROM student;
+Empty set (0.00 sec)
+
+mysql> SELECT * FROM student;
++------------+--------+------------------+
+| student_id | name   | major            |
++------------+--------+------------------+
+|          1 | Jack   | Biology          |
+|          2 | Kate   | Sociology        |
+|          3 | Natlie | Electronics      |
+|          4 | Jack   | Biology          |
+|          5 | Mike   | Computer Science |
++------------+--------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT name FROM student WHERE major = 'Biology' OR 'Electronics';
++------+
+| name |
++------+
+| Jack |
+| Jack |
++------+
+2 rows in set, 1 warning (0.01 sec)
+
+mysql> SELECT name FROM student WHERE major = 'Biology' OR 'Electronics';
++------+
+| name |
++------+
+| Jack |
+| Jack |
++------+
+2 rows in set, 1 warning (0.01 sec)
+
+mysql> SELECT name FROM student WHERE major = 'Biology' OR major = 'Electronics';
++--------+
+| name   |
++--------+
+| Jack   |
+| Natlie |
+| Jack   |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT name 
+    -> FROM student
+    -> WHERE student_id = 4;
++------+
+| name |
++------+
+| Jack |
++------+
+1 row in set (0.01 sec)
+
+mysql> SELECT student.name;
+ERROR 1109 (42S02): Unknown table 'student' in field list
+mysql> SELECT student.name 
+    -> FROM student;
++--------+
+| name   |
++--------+
+| Jack   |
+| Kate   |
+| Natlie |
+| Jack   |
+| Mike   |
++--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT name, major FROM student ORDER by name;
++--------+------------------+
+| name   | major            |
++--------+------------------+
+| Jack   | Biology          |
+| Jack   | Biology          |
+| Kate   | Sociology        |
+| Mike   | Computer Science |
+| Natlie | Electronics      |
++--------+------------------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT name, major FROM student ORDER by name DESC;
++--------+------------------+
+| name   | major            |
++--------+------------------+
+| Natlie | Electronics      |
+| Mike   | Computer Science |
+| Kate   | Sociology        |
+| Jack   | Biology          |
+| Jack   | Biology          |
++--------+------------------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT *
+    -> FROM student
+    -> LIMIT 3;
++------------+--------+-------------+
+| student_id | name   | major       |
++------------+--------+-------------+
+|          1 | Jack   | Biology     |
+|          2 | Kate   | Sociology   |
+|          3 | Natlie | Electronics |
++------------+--------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM student
+    -> ORDER BY student_id DESC
+    -> LIMIT 3;
++------------+--------+------------------+
+| student_id | name   | major            |
++------------+--------+------------------+
+|          5 | Mike   | Computer Science |
+|          4 | Jack   | Biology          |
+|          3 | Natlie | Electronics      |
++------------+--------+------------------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT *
+    -> FROM student
+    -> WHERE name <> 'Mike';
++------------+--------+-------------+
+| student_id | name   | major       |
++------------+--------+-------------+
+|          1 | Jack   | Biology     |
+|          2 | Kate   | Sociology   |
+|          3 | Natlie | Electronics |
+|          4 | Jack   | Biology     |
++------------+--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student WHERE name <> 'Jack';
++------------+--------+------------------+
+| student_id | name   | major            |
++------------+--------+------------------+
+|          2 | Kate   | Sociology        |
+|          3 | Natlie | Electronics      |
+|          5 | Mike   | Computer Science |
++------------+--------+------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student WHERE name <> 'Kate';
++------------+--------+------------------+
+| student_id | name   | major            |
++------------+--------+------------------+
+|          1 | Jack   | Biology          |
+|          3 | Natlie | Electronics      |
+|          4 | Jack   | Biology          |
+|          5 | Mike   | Computer Science |
++------------+--------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> -- <> means not equal to;
+mysql> means not equal to;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'means not equal to' at line 1
+mysql> -- double dashes means a comment;
+mysql> SELECT * FROM student WHERE student_id <3;
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          1 | Jack | Biology   |
+|          2 | Kate | Sociology |
++------------+------+-----------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT * FROM student WHERE student_id <3 AND name <> 'Jack';
++------------+------+-----------+
+| student_id | name | major     |
++------------+------+-----------+
+|          2 | Kate | Sociology |
++------------+------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM student
+    -> WHERE major IN('Biology', 'Sociology','Electronics');
++------------+--------+-------------+
+| student_id | name   | major       |
++------------+--------+-------------+
+|          1 | Jack   | Biology     |
+|          2 | Kate   | Sociology   |
+|          3 | Natlie | Electronics |
+|          4 | Jack   | Biology     |
++------------+--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student WHERE major IN("Biology");
++------------+------+---------+
+| student_id | name | major   |
++------------+------+---------+
+|          1 | Jack | Biology |
+|          4 | Jack | Biology |
++------------+------+---------+
+2 rows in set (0.00 sec)
+
+mysql> -- SQL works both in double quotes and single quotes much like Python;
+mysql> SELECT * from employee;
+Empty set (0.01 sec)
+
+mysql> SELECT * from employee;
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |      NULL |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * from employee;
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |         1 |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * from employee;
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |         1 |
+|    101 | Jan        | Levinson  | 1961-05-11 | F    | 110000 |      100 |         1 |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * from employee;
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |         1 |
+|    101 | Jan        | Levinson  | 1961-05-11 | F    | 110000 |      100 |         1 |
+|    102 | Michael    | Scott     | 1964-03-15 | M    |  75000 |      100 |      NULL |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * from branch;
++-----------+-------------+--------+----------------+
+| branch_id | branch_name | mgr_id | mgr_start_date |
++-----------+-------------+--------+----------------+
+|         1 | Corporate   |    100 | 2006-02-09     |
+|         2 | Scranton    |    102 | 1992-04-06     |
++-----------+-------------+--------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * from employee;
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |         1 |
+|    101 | Jan        | Levinson  | 1961-05-11 | F    | 110000 |      100 |         1 |
+|    102 | Michael    | Scott     | 1964-03-15 | M    |  75000 |      100 |         2 |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * from employee;
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |         1 |
+|    101 | Jan        | Levinson  | 1961-05-11 | F    | 110000 |      100 |         1 |
+|    102 | Michael    | Scott     | 1964-03-15 | M    |  75000 |      100 |         2 |
+|    103 | Angela     | Martin    | 1971-06-25 | F    |  63000 |      102 |         2 |
+|    104 | Kelly      | Kapoor    | 1980-02-05 | F    |  55000 |      102 |         2 |
+|    105 | Stanley    | Hudson    | 1958-02-19 | M    |  69000 |      102 |         2 |
+|    106 | Josh       | Porter    | 1969-09-05 | M    |  78000 |      100 |         3 |
+|    107 | Andy       | Bernard   | 1973-07-22 | M    |  65000 |      106 |         3 |
+|    108 | Jim        | Halpert   | 1978-10-01 | M    |  71000 |      106 |         3 |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT * from branch;
++-----------+-------------+--------+----------------+
+| branch_id | branch_name | mgr_id | mgr_start_date |
++-----------+-------------+--------+----------------+
+|         1 | Corporate   |    100 | 2006-02-09     |
+|         2 | Scranton    |    102 | 1992-04-06     |
+|         3 | Stamford    |    106 | 1998-02-13     |
++-----------+-------------+--------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM works_with;
++--------+-----------+-------------+
+| emp_id | client_id | total_sales |
++--------+-----------+-------------+
+|    102 |       401 |      267000 |
+|    102 |       406 |       15000 |
+|    105 |       400 |       55000 |
+|    105 |       404 |       33000 |
+|    105 |       406 |      130000 |
+|    107 |       403 |        5000 |
+|    107 |       405 |       26000 |
+|    108 |       402 |       22500 |
+|    108 |       403 |       12000 |
++--------+-----------+-------------+
+9 rows in set (0.00 sec)
+
+mysql> DROP TABLE student;
+ERROR 4031 (HY000): The client was disconnected by the server because of inactivity. See wait_timeout and interactive_timeout for configuring this behavior.
+No connection. Trying to reconnect...
+Connection id:    21
+Current database: giraffe
+
+Query OK, 0 rows affected (0.48 sec)
+
+mysql> DROP TABLE employee;
+ERROR 3730 (HY000): Cannot drop table 'employee' referenced by a foreign key constraint 'branch_ibfk_1' on table 'branch'.
+mysql> SELECT * FROM branch;
++-----------+-------------+--------+----------------+
+| branch_id | branch_name | mgr_id | mgr_start_date |
++-----------+-------------+--------+----------------+
+|         1 | Corporate   |    100 | 2006-02-09     |
+|         2 | Scranton    |    102 | 1992-04-06     |
+|         3 | Stamford    |    106 | 1998-02-13     |
++-----------+-------------+--------+----------------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT * FROM works_withl
+    -> esx
+    -> exit
+    -> exit
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'exit
+exit' at line 3
+mysql> SELECT * FROM works_with;
++--------+-----------+-------------+
+| emp_id | client_id | total_sales |
++--------+-----------+-------------+
+|    102 |       401 |      267000 |
+|    102 |       406 |       15000 |
+|    105 |       400 |       55000 |
+|    105 |       404 |       33000 |
+|    105 |       406 |      130000 |
+|    107 |       403 |        5000 |
+|    107 |       405 |       26000 |
+|    108 |       402 |       22500 |
+|    108 |       403 |       12000 |
++--------+-----------+-------------+
+9 rows in set (0.01 sec)
+
+mysql> SELECT * FROM clients;
+ERROR 1146 (42S02): Table 'giraffe.clients' doesn't exist
+mysql> SELECT * FROM client;
++-----------+---------------------+-----------+
+| client_id | client_name         | branch_id |
++-----------+---------------------+-----------+
+|       400 | Dunmore Highschool  |         2 |
+|       401 | Lackawana Country   |         2 |
+|       402 | FedEx               |         3 |
+|       403 | John Daly Law, LLC  |         3 |
+|       404 | Scranton Whitepages |         2 |
+|       405 | Times Newspaper     |         3 |
+|       406 | FedEx               |         2 |
++-----------+---------------------+-----------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT first_name AS forename, last_name AS surname
+    -> FROM employee;
++----------+----------+
+| forename | surname  |
++----------+----------+
+| David    | Wallace  |
+| Jan      | Levinson |
+| Michael  | Scott    |
+| Angela   | Martin   |
+| Kelly    | Kapoor   |
+| Stanley  | Hudson   |
+| Josh     | Porter   |
+| Andy     | Bernard  |
+| Jim      | Halpert  |
++----------+----------+
+9 rows in set (0.02 sec)
+
+mysql> SELECT first_name AS 'forename', last_name AS 'surname'
+    -> FROM employee;
++----------+----------+
+| forename | surname  |
++----------+----------+
+| David    | Wallace  |
+| Jan      | Levinson |
+| Michael  | Scott    |
+| Angela   | Martin   |
+| Kelly    | Kapoor   |
+| Stanley  | Hudson   |
+| Josh     | Porter   |
+| Andy     | Bernard  |
+| Jim      | Halpert  |
++----------+----------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT
+    -> branch_id
+    -> FRO
+    -> M
+    -> empl
+    -> oyee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'M
+empl
+oyee' at line 4
+mysql> SELECT DISTINCT branch_id
+    -> FROM employee;
++-----------+
+| branch_id |
++-----------+
+|         1 |
+|         2 |
+|         3 |
++-----------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT COUNT(super_id)
+    -> FROM employee;
++-----------------+
+| COUNT(super_id) |
++-----------------+
+|               8 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(emp_id) FROM employee;
++---------------+
+| COUNT(emp_id) |
++---------------+
+|             9 |
++---------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT DISTINCT super_id
+    -> FROM employee;
++----------+
+| super_id |
++----------+
+|     NULL |
+|      100 |
+|      102 |
+|      106 |
++----------+
+4 rows in set (0.01 sec)
+
+mysql> SELECT * FROM employee;
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |         1 |
+|    101 | Jan        | Levinson  | 1961-05-11 | F    | 110000 |      100 |         1 |
+|    102 | Michael    | Scott     | 1964-03-15 | M    |  75000 |      100 |         2 |
+|    103 | Angela     | Martin    | 1971-06-25 | F    |  63000 |      102 |         2 |
+|    104 | Kelly      | Kapoor    | 1980-02-05 | F    |  55000 |      102 |         2 |
+|    105 | Stanley    | Hudson    | 1958-02-19 | M    |  69000 |      102 |         2 |
+|    106 | Josh       | Porter    | 1969-09-05 | M    |  78000 |      100 |         3 |
+|    107 | Andy       | Bernard   | 1973-07-22 | M    |  65000 |      106 |         3 |
+|    108 | Jim        | Halpert   | 1978-10-01 | M    |  71000 |      106 |         3 |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+9 rows in set (0.02 sec)
+
+mysql> SELECT COUNT(emp_id)
+    -> FROM employee
+    -> WHERE sex= 'F' AND YEAr(birth_day) > 1970;
++---------------+
+| COUNT(emp_id) |
++---------------+
+|             2 |
++---------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT COUNT(sex), sex
+    -> FROM employee;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'giraffe.employee.sex'; this is incompatible with sql_mode=only_full_group_by
+mysql> SELECT COUNT(sex), sex
+    -> FROM employee
+    -> GROUP BY sex;
++------------+------+
+| COUNT(sex) | sex  |
++------------+------+
+|          6 | M    |
+|          3 | F    |
++------------+------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT SUM(total_sales), emp_id 
+    -> FROM works_with
+    -> GROUP BY emp_id;
++------------------+--------+
+| SUM(total_sales) | emp_id |
++------------------+--------+
+|           282000 |    102 |
+|           218000 |    105 |
+|            31000 |    107 |
+|            34500 |    108 |
++------------------+--------+
+4 rows in set (0.01 sec)
+
+mysql> SELECT *
+    -> FROM client
+    -> WHERE client
+client              client.client_id    client_id          
+client.branch_id    client.client_name  client_name        
+    -> WHERE client_name 
+    -> LIKE '%LLC';
++-----------+--------------------+-----------+
+| client_id | client_name        | branch_id |
++-----------+--------------------+-----------+
+|       403 | John Daly Law, LLC |         3 |
++-----------+--------------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM employee
+    -> WHERE birth_day LIKE '____-10%';
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    108 | Jim        | Halpert   | 1978-10-01 | M    |  71000 |      106 |         3 |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> -- finding all employees born in October;
+mysql> /*
+   /*> multi
+   /*> line
+   /*> comments in sql 
+   /*> look like 
+   /*> this. */
+mysql> SELECT first_name
+    -> FROM employee
+    -> UNION
+    -> SELECT branch_name
+    -> FROM branch;
+ERROR 4031 (HY000): The client was disconnected by the server because of inactivity. See wait_timeout and interactive_timeout for configuring this behavior.
+No connection. Trying to reconnect...
+Connection id:    24
+Current database: giraffe
+
++------------+
+| first_name |
++------------+
+| David      |
+| Jan        |
+| Michael    |
+| Angela     |
+| Kelly      |
+| Stanley    |
+| Josh       |
+| Andy       |
+| Jim        |
+| Corporate  |
+| Scranton   |
+| Stamford   |
++------------+
+12 rows in set (0.05 sec)
+
+mysql> SELECT first_name, last_name
+    -> FROM employee
+    -> UNION
+    -> SELECT sup
+super_id       supplier_name  supply_type   
+    -> SELECT supplier_name, suppl
+supplier_name  supply_type   
+    -> SELECT supplier_name, suppl
+supplier_name  supply_type   
+    -> SELECT supplier_name, supply type
+    -> FROM supplier;
+ERROR 1146 (42S02): Table 'giraffe.supplier' doesn't exist
+mysql> SELECT first_name, last_name FROM employee UNION SELECT supplier_name, supply type FROM branch_supplier;
+ERROR 1054 (42S22): Unknown column 'supply' in 'field list'
+mysql> SELECT first_name, last_name FROM employee UNION SELECT supplier_name, supply_type FROM branch_supplier;
++---------------------+------------------+
+| first_name          | last_name        |
++---------------------+------------------+
+| David               | Wallace          |
+| Jan                 | Levinson         |
+| Michael             | Scott            |
+| Angela              | Martin           |
+| Kelly               | Kapoor           |
+| Stanley             | Hudson           |
+| Josh                | Porter           |
+| Andy                | Bernard          |
+| Jim                 | Halpert          |
+| Hammer Mill         | Paper            |
+| J.T. Forms & Labels | Custom Forms     |
+| Uni-ball            | Writing Utensils |
+| Patriot Paper       | Paper            |
+| Stamford Lables     | Custom Forms     |
++---------------------+------------------+
+14 rows in set (0.00 sec)
+
+mysql> SELECT first_name, last_name FROM employee UNION SELECT supplier_name FROM branch_supplier;
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> SELECT first_name, last_name FROM employee UNION SELECT branch_name, branch_id FROM branch;
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| David      | Wallace   |
+| Jan        | Levinson  |
+| Michael    | Scott     |
+| Angela     | Martin    |
+| Kelly      | Kapoor    |
+| Stanley    | Hudson    |
+| Josh       | Porter    |
+| Andy       | Bernard   |
+| Jim        | Halpert   |
+| Corporate  | 1         |
+| Scranton   | 2         |
+| Stamford   | 3         |
++------------+-----------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT * 
+    -> FROM branch;
++-----------+-------------+--------+----------------+
+| branch_id | branch_name | mgr_id | mgr_start_date |
++-----------+-------------+--------+----------------+
+|         1 | Corporate   |    100 | 2006-02-09     |
+|         2 | Scranton    |    102 | 1992-04-06     |
+|         3 | Stamford    |    106 | 1998-02-13     |
++-----------+-------------+--------+----------------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT *  FROM branch;
++-----------+-------------+--------+----------------+
+| branch_id | branch_name | mgr_id | mgr_start_date |
++-----------+-------------+--------+----------------+
+|         1 | Corporate   |    100 | 2006-02-09     |
+|         2 | Scranton    |    102 | 1992-04-06     |
+|         3 | Stamford    |    106 | 1998-02-13     |
+|         4 | Buffalo     |   NULL | NULL           |
++-----------+-------------+--------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT employee.emp_id, employee.first_name, branch.mgr_id
+    -> FROM employee
+    -> JOIN branch
+    -> ON employee.emp_id = branch.mgr_id;
++--------+------------+--------+
+| emp_id | first_name | mgr_id |
++--------+------------+--------+
+|    100 | David      |    100 |
+|    102 | Michael    |    102 |
+|    106 | Josh       |    106 |
++--------+------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT employee.emp_id, employee.first_name, branch.branch_name  FROM employee JOIN branch ON employee.emp_id = bran
+ch.mgr_id;
++--------+------------+-------------+
+| emp_id | first_name | branch_name |
++--------+------------+-------------+
+|    100 | David      | Corporate   |
+|    102 | Michael    | Scranton    |
+|    106 | Josh       | Stamford    |
++--------+------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT employee.emp_id, employee.first_name AS 'Manager Name', branch.branch_name  FROM employee JOIN branch ON employee.
++--------+--------------+-------------+
+| emp_id | Manager Name | branch_name |
++--------+--------------+-------------+
+|    100 | David        | Corporate   |
+|    102 | Michael      | Scranton    |
+|    106 | Josh         | Stamford    |
++--------+--------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * 
+    -> FROM branch;
++-----------+-------------+--------+----------------+
+| branch_id | branch_name | mgr_id | mgr_start_date |
++-----------+-------------+--------+----------------+
+|         1 | Corporate   |    100 | 2006-02-09     |
+|         2 | Scranton    |    102 | 1992-04-06     |
+|         3 | Stamford    |    106 | 1998-02-13     |
+|         4 | Buffalo     |   NULL | NULL           |
++-----------+-------------+--------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> -- THIS WAS INNER JOIN. (General Basic). Now we will use outer join ( left, right, full)
+mysql> SELECT employee.emp_id, employee.first_name, branch.branch_name 
+    -> FROM employee
+    -> JOIN branch
+    -> ON employee.emp_id = branch.mgr_
+branch.mgr_id          branch.mgr_start_date 
+    -> ON employee.emp_id = branch.mgr_id;
++--------+------------+-------------+
+| emp_id | first_name | branch_name |
++--------+------------+-------------+
+|    100 | David      | Corporate   |
+|    102 | Michael    | Scranton    |
+|    106 | Josh       | Stamford    |
++--------+------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT employee.emp_id, employee.first_name, branch.branch_name FROM employee LEFT JOIN branch ON employee.emp_id =
+branch.mgr_id;
++--------+------------+-------------+
+| emp_id | first_name | branch_name |
++--------+------------+-------------+
+|    100 | David      | Corporate   |
+|    101 | Jan        | NULL        |
+|    102 | Michael    | Scranton    |
+|    103 | Angela     | NULL        |
+|    104 | Kelly      | NULL        |
+|    105 | Stanley    | NULL        |
+|    106 | Josh       | Stamford    |
+|    107 | Andy       | NULL        |
+|    108 | Jim        | NULL        |
++--------+------------+-------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT employee.emp_id, employee.first_name, branch.branch_name FROM employee RIGHT JOIN branch ON employee.emp_id =
+ branch.mgr_id;
++--------+------------+-------------+
+| emp_id | first_name | branch_name |
++--------+------------+-------------+
+|    100 | David      | Corporate   |
+|    102 | Michael    | Scranton    |
+|    106 | Josh       | Stamford    |
+|   NULL | NULL       | Buffalo     |
++--------+------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT employee.emp_id, employee.first_name, branch.branch_name FROM employee FULL JOIN branch ON employee.emp_id =
+branch.mgr_id;
+ERROR 1054 (42S22): Unknown column 'employee.emp_id' in 'field list'
+mysql> SELECT client.client_name
+    -> FROM client
+    -> WHERE client.branch_id IN(
+    -> SELECT branch.branch_id
+    -> FROM branch
+    -> WHERE branch.mgr_id = 102);
++---------------------+
+| client_name         |
++---------------------+
+| Dunmore Highschool  |
+| Lackawana Country   |
+| Scranton Whitepages |
+| FedEx               |
++---------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * 
+    -> FROM trigger_test
+    -> ;
+Empty set (0.02 sec)
+
+mysql> DELIMITER $$
+mysql> SELECT *
+    -> FROM employee;
+    -> $$
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |         1 |
+|    101 | Jan        | Levinson  | 1961-05-11 | F    | 110000 |      100 |         1 |
+|    103 | Angela     | Martin    | 1971-06-25 | F    |  63000 |     NULL |      NULL |
+|    104 | Kelly      | Kapoor    | 1980-02-05 | F    |  55000 |     NULL |      NULL |
+|    105 | Stanley    | Hudson    | 1958-02-19 | M    |  69000 |     NULL |      NULL |
+|    106 | Josh       | Porter    | 1969-09-05 | M    |  78000 |      100 |         3 |
+|    107 | Andy       | Bernard   | 1973-07-22 | M    |  65000 |      106 |         3 |
+|    108 | Jim        | Halpert   | 1978-10-01 | M    |  71000 |      106 |         3 |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM employee$$
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |         1 |
+|    101 | Jan        | Levinson  | 1961-05-11 | F    | 110000 |      100 |         1 |
+|    103 | Angela     | Martin    | 1971-06-25 | F    |  63000 |     NULL |      NULL |
+|    104 | Kelly      | Kapoor    | 1980-02-05 | F    |  55000 |     NULL |      NULL |
+|    105 | Stanley    | Hudson    | 1958-02-19 | M    |  69000 |     NULL |      NULL |
+|    106 | Josh       | Porter    | 1969-09-05 | M    |  78000 |      100 |         3 |
+|    107 | Andy       | Bernard   | 1973-07-22 | M    |  65000 |      106 |         3 |
+|    108 | Jim        | Halpert   | 1978-10-01 | M    |  71000 |      106 |         3 |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> -- $$ basically now acts as ; 
+mysql> -- creating the trigger
+mysql> CREATE 
+    ->    TRIGGER my_trigger BEFORE INSERT 
+    ->    ON employee
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       INSERT INTO trigger_test('adding new employee');
+    ->    END$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''adding new employee');
+   END' at line 6
+mysql> CREATE 
+    ->    TRIGGER my_trigger BEFORE INSERT 
+    ->    ON employee
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       INSERT INTO trigger_test VALUES('adding new employee');
+    ->    END$$
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> DELIMITER ; -- setting delimiter back to the default semi-colon
+mysql> SELECT * FROM employee$$
+    -> ;
+ERROR 1146 (42S02): Table 'giraffe.employee$$' doesn't exist
+mysql> -- see, $$ no longer works now.
+mysql> SELECT
+    -> *
+    -> FROM
+    -> trigger_test;
++---------------------+
+| message             |
++---------------------+
+| adding new employee |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE 
+    ->    TRIGGER my_trigger_2 BEFORE INSERT 
+    ->    ON employee
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       INSERT INTO trigger_test VALUES(NEW.first_name); 
+    ->    END$$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> DELIMITER $$
+mysql> CREATE 
+    ->    TRIGGER my_trigger_2_variation BEFORE INSERT 
+    ->    ON employee
+    ->    REFERENCING NEW AS naya
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       INSERT INTO trigger_test VALUES(naya.first_name); 
+    ->    END$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REFERENCING NEW AS naya
+   FOR EACH ROW
+   BEGIN
+      INSERT INTO trigger_test ' at line 4
+mysql> DELIMITER ;
+mysql> DELIMITER $$
+mysql> CREATE 
+    ->    TRIGGER my_trigger_2_variation BEFORE INSERT 
+    ->    ON employee
+    ->    REFERENCING NEW AS naya
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       INSERT INTO trigger_test VALUES(naya.first_name); 
+    ->    END$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REFERENCING NEW AS naya
+   FOR EACH ROW
+   BEGIN
+      INSERT INTO trigger_test ' at line 4
+mysql> CREATE 
+    ->    TRIGGER my_trigger_2_variation BEFORE INSERT 
+    ->    ON employee
+    ->    REFERENCING {NEW AS naya}
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       INSERT INTO trigger_test VALUES(naya.first_name); 
+    ->    END$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REFERENCING {NEW AS naya}
+   FOR EACH ROW
+   BEGIN
+      INSERT INTO trigger_tes' at line 4
+mysql> CREATE 
+    ->    TRIGGER my_trigger_2_variation BEFORE INSERT 
+    ->    ON employee
+    ->    REFERENCING {OLD AS purana | NEW AS naya}
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       INSERT INTO trigger_test VALUES(naya.first_name); 
+    ->    END$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REFERENCING {OLD AS purana | NEW AS naya}
+   FOR EACH ROW
+   BEGIN
+      INSERT ' at line 4
+mysql> CREATE 
+    ->    TRIGGER my_trigger_2_variation BEFORE INSERT 
+    ->    ON employee
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       REFERENCING {OLD AS purana | NEW AS naya}
+    ->       INSERT INTO trigger_test VALUES(naya.first_name); 
+    ->    END$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{OLD AS purana | NEW AS naya}
+      INSERT INTO trigger_test VALUES(naya.first_n' at line 6
+mysql> CREATE 
+    ->    TRIGGER my_trigger_2_variation BEFORE INSERT 
+    ->    ON employee
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       REFERENCING NEW AS naya
+    ->       INSERT INTO trigger_test VALUES(naya.first_name); 
+    ->    END$$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NEW AS naya
+      INSERT INTO trigger_test VALUES(naya.first_name); 
+   END' at line 6
+mysql> DELIMITER ;
+mysql> SELECT *
+    -> FROM employee;
++--------+------------+-----------+------------+------+--------+----------+-----------+
+| emp_id | first_name | last_name | birth_day  | sex  | salary | super_id | branch_id |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+|    100 | David      | Wallace   | 1967-11-17 | M    | 250000 |     NULL |         1 |
+|    101 | Jan        | Levinson  | 1961-05-11 | F    | 110000 |      100 |         1 |
+|    103 | Angela     | Martin    | 1971-06-25 | F    |  63000 |     NULL |      NULL |
+|    104 | Kelly      | Kapoor    | 1980-02-05 | F    |  55000 |     NULL |      NULL |
+|    105 | Stanley    | Hudson    | 1958-02-19 | M    |  69000 |     NULL |      NULL |
+|    106 | Josh       | Porter    | 1969-09-05 | M    |  78000 |      100 |         3 |
+|    107 | Andy       | Bernard   | 1973-07-22 | M    |  65000 |      106 |         3 |
+|    108 | Jim        | Halpert   | 1978-10-01 | M    |  71000 |      106 |         3 |
+|    109 | Oscar      | Martinez  | 1968-02-19 | M    |  69000 |      106 |         3 |
+|    110 | Kevin      | Malone    | 1978-02-19 | M    |  69000 |      106 |         3 |
++--------+------------+-----------+------------+------+--------+----------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT *
+    -> FROM trigger_table;
+ERROR 1146 (42S02): Table 'giraffe.trigger_table' doesn't exist
+mysql> SELECT *
+    -> FROM trigger_test;
++---------------------+
+| message             |
++---------------------+
+| adding new employee |
+| adding new employee |
+| Kevin               |
++---------------------+
+3 rows in set (0.00 sec)
+
+mysql> DELIMITER //
+mysql> CREATE 
+    ->    TRIGGER my_trigger_3 AFTER INSERT 
+    ->    ON employee
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       IF NEW.sex = 'M'THEN
+    ->          INSERT INTO trigger_test VALUES('Male employee added');
+    ->       ELSE IF NEW.sex = 'F' THEN
+    ->          INSERT INTO trigger_test VALUES('Female employee added');
+    ->       ELSE 
+    ->          INSERT INTO trigger_test VALUES('Other employee added');
+    ->       END IF;
+    ->    END //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 13
+mysql>    TRIGGER my_trigger_3 AFTER INSERT 
+    ->    ON employee
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       IF NEW.sex = 'M'THEN
+    ->          INSERT INTO trigger_test VALUES('Male employee added');
+    ->       ELSEIF NEW.sex = 'F' THEN
+    ->          INSERT INTO trigger_test VALUES('Female employee added');
+    ->       ELSE 
+    ->          INSERT INTO trigger_test VALUES('Other employee added');
+    ->       END IF;
+    ->    END //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TRIGGER my_trigger_3 AFTER INSERT 
+   ON employee
+   FOR EACH ROW
+   BEGIN
+     ' at line 1
+mysql> CREATE 
+    ->    TRIGGER my_trigger_3 AFTER INSERT 
+    ->    ON employee
+    ->    FOR EACH ROW
+    ->    BEGIN
+    ->       IF NEW.sex = 'M'THEN
+    ->          INSERT INTO trigger_test VALUES('Male employee added');
+    ->       ELSEIF NEW.sex = 'F' THEN
+    ->          INSERT INTO trigger_test VALUES('Female employee added');
+    ->       ELSE 
+    ->          INSERT INTO trigger_test VALUES('Other employee added');
+    ->       END IF;
+    ->    END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> SELECT *
+    -> FROM trigger_test;
++-----------------------+
+| message               |
++-----------------------+
+| adding new employee   |
+| adding new employee   |
+| Kevin                 |
+| adding new employee   |
+| Pam                   |
+| Female employee added |
++-----------------------+
+6 rows in set (0.00 sec)
+
+mysql> DROP TRIGGER my_trigger
+    -> ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
