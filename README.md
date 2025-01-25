@@ -7,7 +7,7 @@ This project demonstrates the basics of SQL by using a self-created database bas
 - **SQL** (MySQL)
 - **Database Design:** Created a custom database structure based on the TV show's data.
 - **Data Manipulation:** Performed CRUD operations and complex queries to extract insights.
-- **Joins & Subqueries:** Applied inner joins, outer joins, and subqueries for advanced data analysis.
+- **CTE, Window Functions, Joins & Subqueries:** Applied inner joins, outer joins, and subqueries for advanced data analysis.
 
 ## Project Features
 - **Database Setup:** A self-created database containing tables for employees, departments, and episodes.
