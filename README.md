@@ -29,4 +29,3 @@ A detailed video walkthrough of the project is available here:
 ## Authors
 - **Yash Dange**  
   - [LinkedIn](https://www.linkedin.com/in/yash-dange/)
-  - [GitHub](https://github.com/Yash-Dange)
